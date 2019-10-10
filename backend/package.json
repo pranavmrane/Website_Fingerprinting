@@ -1,0 +1,23 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "adblock-detect": "^1.0.5",
+    "cors": "^2.8.5",
+    "dotenv": "^8.1.0",
+    "express": "^4.17.1",
+    "font-list": "^1.2.0",
+    "hashcode": "^1.0.3",
+    "mongoose": "^5.7.4",
+    "navigator": "^1.0.1",
+    "screenres": "^2.0.1"
+  }
+}
