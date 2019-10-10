@@ -10,19 +10,28 @@ router.route("/").get((req, res) => {
     .catch(err => res.status(400).json("Error: " + err));
 });
 
+// Not working code
+// router.get("/:id").get((req, res) => {
+//   console.log("wow");
+//   User.find({ hashedUsername: hash }, function(err, docs) {
+//     console.log(docs);
+//     return res.end(JSON.stringify(docs));
+//   });
+// });
+
 router.route("/add").post((req, res) => {
-  const thisaction = Math.floor(Math.random() * 10);
-  const thisactionDate = new Date();
+  const thisaction = req.body.action;
+  const thisactionDate = req.body.actionDate;
 
   // Machine Details
-  thisuserAgent = Navigator.userAgent;
-  thisbrowserName = Navigator.appCodeName;
-  thisplatformName = Navigator.platform;
-  thiscookiesEnabled = Navigator.cookieEnabled;
-  thispluginsInstalled = Navigator.plugins.length;
-  thisdoNotTrackStatus = Navigator.doNotTrack;
-  thisscreenWidth = Screen.get()[0];
-  thisscreenHeight = Screen.get()[1];
+  thisuserAgent = req.body.userAgent;
+  thisbrowserName = req.body.browserName;
+  thisplatformName = req.body.platformName;
+  thiscookiesEnabled = req.body.cookiesEnabled;
+  thispluginsInstalled = req.body.pluginsInstalled;
+  thisdoNotTrackStatus = req.body.doNotTrackStatus;
+  thisscreenWidth = req.body.screenWidth;
+  thisscreenHeight = req.body.screenHeight;
 
   // HashCode Deails
   var hashInput =
@@ -34,7 +43,7 @@ router.route("/add").post((req, res) => {
     thisdoNotTrackStatus +
     thisscreenWidth +
     thisscreenHeight;
-  var hash = encode().value(hashInput);
+  var hash = Math.abs(encode().value(hashInput));
   const thishashedUsername = hash;
   console.log("hashinput: " + hashInput);
   console.log("hash: " + thishashedUsername);
