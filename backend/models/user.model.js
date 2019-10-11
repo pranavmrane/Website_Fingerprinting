@@ -2,11 +2,13 @@ const mongoose = require("mongoose");
 
 const Schema = mongoose.Schema;
 
+// Specify collections(table) structure for Action
 const ActionSchema = new Schema({
   action: String,
   ActionDateTime: { type: Date }
 });
 
+// Specify collections(table) structure for Machine Information
 const MachineSchema = new Schema({
   userAgent: String,
   browserName: String,
@@ -21,6 +23,8 @@ const MachineSchema = new Schema({
   screenDepth: String
 });
 
+// Specify collections(table) structure for User Information
+// Machine and Action are nested in User
 const UserSchema = new Schema(
   {
     hashedUsername: {

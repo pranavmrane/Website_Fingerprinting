@@ -1,29 +1,24 @@
 const router = require("express").Router();
 let User = require("../models/user.model");
-let Navigator = require("navigator");
-let Screen = require("screenres");
 var encode = require("hashcode").hashCode;
 
+// Specify the actions after get request for localhost:5000/users/
+// Retuns all users in database
 router.route("/").get((req, res) => {
   User.find()
     .then(users => res.json(users))
     .catch(err => res.status(400).json("Error: " + err));
 });
 
-// TODO
-router.get("/:id").get((req, res) => {
-  console.log("wow");
-  User.find({ hashedUsername: req.params.id }, function(err, docs) {
-    console.log(docs);
-    return res.end(JSON.stringify(docs));
-  });
-});
-
+// Specify the actions after post request for localhost:5000/users/add
+// This function will save user request information and return all past requests for user
 router.route("/add").post((req, res) => {
+  // Action Details Read from Request Information
   const thisaction = req.body.action;
   const thisactionDate = req.body.actionDate;
 
-  // Machine Details
+  // Machine Details Read from Request Information
+  // TODO: Additional Attributes to be added
   thisuserAgent = req.body.userAgent;
   thisbrowserName = req.body.browserName;
   thisplatformName = req.body.platformName;
@@ -36,7 +31,7 @@ router.route("/add").post((req, res) => {
   thisbrowserLanguage = req.body.browserLanguage;
   thisscreenDepth = req.body.screenDepth;
 
-  // HashCode Deails
+  // Generate HashCode from all attributes
   var hashInput =
     thisuserAgent +
     thisbrowserName +
@@ -50,14 +45,18 @@ router.route("/add").post((req, res) => {
     thisbrowserLanguage +
     thisscreenDepth;
 
+  // Use hashcode library for generating hash from string
   var hash = Math.abs(encode().value(hashInput));
   const thishashedUsername = hash;
-  // thishashedUsername = "FIXED1";
+
   // console.log("hashinput: " + hashInput);
   // console.log("hash: " + thishashedUsername);
 
+  // Check if a patricular user is already present using hash as key
   User.find({ hashedUsername: thishashedUsername }, function(err, docs) {
+    // User Found
     if (docs.length) {
+      // Add Latest action to specific user
       docs[0].actions.push({
         action: thisaction,
         ActionDateTime: thisactionDate
@@ -68,11 +67,14 @@ router.route("/add").post((req, res) => {
           res.json({
             success: "true",
             msg: "Action Added to User",
+            // Return all actions past and present to client as res
             data: docs[0].actions
           })
         )
         .catch(err => res.status(500).json("Error: " + err));
-    } else {
+    }
+    // New user needs to be created as hash not found
+    else {
       const newUser = new User({
         hashedUsername: thishashedUsername,
         machine: [
@@ -104,6 +106,7 @@ router.route("/add").post((req, res) => {
           res.json({
             success: "true",
             msg: "New User added!",
+            // Return newly added action to client
             data: newUser.actions
           })
         )

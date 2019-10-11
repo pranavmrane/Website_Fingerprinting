@@ -1,68 +1,30 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Core Idea
 
-## Available Scripts
+The objective of this project is to demonstrate Browser Fingerprinting. Browser Fingerprinting allows web services to track your interaction on a website.
 
-In the project directory, you can run:
+The most recent interactions can be tied back to previous interactions. All of this can be done without login information or cookies.
 
-### `npm start`
+## Pre-Requisites
 
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+The process needs npm, node and react installed on the machine
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
+The project files must also be cloned in a folder
 
-### `npm test`
+## Run Instructions
 
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### Start Backend
 
-### `npm run build`
+Backend can be started by nativating to {root_folder_address}/backend/
+Then backend server can be started by typing `nodemon server`
 
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### Start Frontend
 
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
+Backend can be started by nativating out to {root_folder_address}/
+Then frontend server can be started by typing `npm start`
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## Using the tool
 
-### `npm run eject`
+Once the tool in started, type a number in text box
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
-
-### Analyzing the Bundle Size
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
-
-### Making a Progressive Web App
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
-
-### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `npm run build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+This number will be saved on the backend server
+If the tool has been used previously then all previous entries will be also be fetched
