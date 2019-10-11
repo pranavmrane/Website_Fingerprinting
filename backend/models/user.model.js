@@ -15,7 +15,10 @@ const MachineSchema = new Schema({
   pluginsInstalled: String,
   doNotTrackStatus: String,
   screenWidth: String,
-  screenHeight: String
+  screenHeight: String,
+  timeZone: String,
+  browserLanguage: String,
+  screenDepth: String
 });
 
 const UserSchema = new Schema(

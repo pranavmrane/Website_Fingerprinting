@@ -10,14 +10,14 @@ router.route("/").get((req, res) => {
     .catch(err => res.status(400).json("Error: " + err));
 });
 
-// Not working code
-// router.get("/:id").get((req, res) => {
-//   console.log("wow");
-//   User.find({ hashedUsername: hash }, function(err, docs) {
-//     console.log(docs);
-//     return res.end(JSON.stringify(docs));
-//   });
-// });
+// TODO
+router.get("/:id").get((req, res) => {
+  console.log("wow");
+  User.find({ hashedUsername: req.params.id }, function(err, docs) {
+    console.log(docs);
+    return res.end(JSON.stringify(docs));
+  });
+});
 
 router.route("/add").post((req, res) => {
   const thisaction = req.body.action;
@@ -32,6 +32,9 @@ router.route("/add").post((req, res) => {
   thisdoNotTrackStatus = req.body.doNotTrackStatus;
   thisscreenWidth = req.body.screenWidth;
   thisscreenHeight = req.body.screenHeight;
+  thistimeZone = req.body.timeZone;
+  thisbrowserLanguage = req.body.browserLanguage;
+  thisscreenDepth = req.body.screenDepth;
 
   // HashCode Deails
   var hashInput =
@@ -42,24 +45,32 @@ router.route("/add").post((req, res) => {
     thispluginsInstalled +
     thisdoNotTrackStatus +
     thisscreenWidth +
-    thisscreenHeight;
+    thisscreenHeight +
+    thistimeZone +
+    thisbrowserLanguage +
+    thisscreenDepth;
+
   var hash = Math.abs(encode().value(hashInput));
   const thishashedUsername = hash;
-  console.log("hashinput: " + hashInput);
-  console.log("hash: " + thishashedUsername);
-  //   const thishashedUsername = "FIXED9";
+  // thishashedUsername = "FIXED1";
+  // console.log("hashinput: " + hashInput);
+  // console.log("hash: " + thishashedUsername);
 
   User.find({ hashedUsername: thishashedUsername }, function(err, docs) {
     if (docs.length) {
-      //   console.log(docs);
       docs[0].actions.push({
         action: thisaction,
         ActionDateTime: thisactionDate
       });
-      //   console.log(docs[0].actions);
       docs[0]
         .save()
-        .then(() => res.json("Action Added for user!"))
+        .then(() =>
+          res.json({
+            success: "true",
+            msg: "Action Added to User",
+            data: docs[0].actions
+          })
+        )
         .catch(err => res.status(500).json("Error: " + err));
     } else {
       const newUser = new User({
@@ -73,7 +84,10 @@ router.route("/add").post((req, res) => {
             pluginsInstalled: thispluginsInstalled,
             doNotTrackStatus: thispluginsInstalled,
             screenWidth: thisscreenWidth,
-            screenHeight: thisscreenHeight
+            screenHeight: thisscreenHeight,
+            timeZone: thistimeZone,
+            browserLanguage: thisbrowserLanguage,
+            screenDepth: thisscreenDepth
           }
         ],
         actions: [
@@ -86,7 +100,13 @@ router.route("/add").post((req, res) => {
 
       newUser
         .save()
-        .then(() => res.json("User added!"))
+        .then(() =>
+          res.json({
+            success: "true",
+            msg: "New User added!",
+            data: newUser.actions
+          })
+        )
         .catch(err => res.status(400).json("Error: " + err));
     }
   });
