@@ -10,7 +10,7 @@ sudo npm install npm@latest -g
 node -v 
 npm -v
 
-cd ~/fingerprinting-app
+cd ~/Website_Fingerprinting
 
 echo "Setting up Backend Environment"
 cd backend
@@ -23,9 +23,5 @@ echo "Setting up Front End Environment"
 npm install axios react-router-dom bootstrap
 
 cd backend
-echo "Staring Backend Server"
+echo "Starting Backend Server"
 nodemon server
-
-
-echo "Starting new terminal for Front End Server"
-xterm -e "cd ~/fingerprinting-app; npm start"

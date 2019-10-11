@@ -8,11 +8,19 @@ The most recent interactions can be tied back to previous interactions. All of t
 
 ### Linux Users
 
+Start Terminal (Ctrl + Alt + T)
+
 ```
 cd ~
-mkdir fingerprint-app
 git clone https://github.com/pranavmrane/Website_Fingerprinting.git
-sudo bash setupEnv.sh
+cd Website_Fingerprinting/
+sudo bash setupEnvStartBackend.sh
+```
+
+Start New Terminal(Ctrl + Alt + T)
+
+```
+bash startFrontEnd.bash
 ```
 
 This should install all system requirements and start the servers. For more details on starting servers separately checkout the section titled 'Run Instructions'
