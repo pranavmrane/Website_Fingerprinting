@@ -6,9 +6,40 @@ The most recent interactions can be tied back to previous interactions. All of t
 
 ## Pre-Requisites
 
-The process needs npm, node and react installed on the machine
+### Linux Users
 
-The project files must also be cloned in a folder
+```
+cd ~
+mkdir fingerprint-app
+git clone https://github.com/pranavmrane/Website_Fingerprinting.git
+sudo bash setupEnv.sh
+```
+
+This should install all system requirements and start the servers. For more details on starting servers separately checkout the section titled 'Run Instructions'
+
+### Non-Linux Users
+
+The process needs npm, node and react installed on the machine. The instructions for installation are specified [here](https://nodejs.org/en/):
+
+The project files must also be cloned in a folder.
+
+Furthermore Additonal Packages are also required for the project to function.The instructions for installation are specified [here](https://www.tutorialsteacher.com/nodejs/what-is-node-package-manager)
+
+#### Backend Packages Required(Inside backend folder)
+
+- nodemon(installed globally)
+- install
+- express
+- cors
+- mongoose
+- dotenv
+- hashcode
+
+#### FrontEnd Packages Required(Inside root folder)
+
+- axios
+- react-router-dom
+- bootstrap
 
 ## Run Instructions
 
@@ -24,7 +55,6 @@ Then frontend server can be started by typing `npm start`
 
 ## Using the tool
 
-Once the tool in started, type a number in text box
-
-This number will be saved on the backend server
+Once the tool in started, type a number in text box.
+This number will be saved on the backend server.
 If the tool has been used previously then all previous entries will be also be fetched
