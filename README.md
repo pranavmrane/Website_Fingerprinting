@@ -61,7 +61,7 @@ Then backend server can be started by typing `nodemon server`
 
 ## Start Frontend
 
-Backend can be started by nativating out to {root_folder_address}/
+Backend can be started by navigating out to {root_folder_address}/
 Then frontend server can be started by typing `npm start`
 
 # Using the tool

@@ -18,36 +18,78 @@ router.route("/add").post((req, res) => {
   const thisactionDate = req.body.actionDate;
 
   // Machine Details Read from Request Information
-  // TODO: Additional Attributes to be added
-  thisuserAgent = req.body.userAgent;
-  thisbrowserName = req.body.browserName;
+  // TODO: Additional Attributes to be addeds
   thisplatformName = req.body.platformName;
-  thiscookiesEnabled = req.body.cookiesEnabled;
-  thispluginsInstalled = req.body.pluginsInstalled;
-  thisdoNotTrackStatus = req.body.doNotTrackStatus;
+  thismachineCores = req.body.machineCores;
   thisscreenWidth = req.body.screenWidth;
   thisscreenHeight = req.body.screenHeight;
-  thistimeZone = req.body.timeZone;
+  thisscreenAvailWidth = req.body.screenAvailWidth;
+  thisscreenAvailHeight = req.body.screenAvailHeight;
+  thispixelDepth = req.body.pixelDepth;
+  thiscolorDepth = req.body.colorDepth;
+  thisvideoFormats = req.body.videoFormats;
+  thiswebGLVendor = req.body.webGLVendor;
+  thiswebGLRenderer = req.body.webGLRenderer;
   thisbrowserLanguage = req.body.browserLanguage;
-  thisscreenDepth = req.body.screenDepth;
+  thiscookiesEnabled = req.body.cookiesEnabled;
+  thislocalStorage = req.body.localStorage;
+  thissessionStorage = req.body.sessionStorage;
+  thisbrowserName = req.body.browserName;
+  thismachineRAM = req.body.machineRAM;
+  thisdoNotTrackStatus = req.body.doNotTrackStatus;
+  thispluginsInstalled = req.body.pluginsInstalled;
+  thistimeZone = req.body.timeZone;
+  thiscanvasID = req.body.canvasID;
+  // console.log("thiscanvasID: " + thiscanvasID);
 
   // Generate HashCode from all attributes
   var hashInput =
-    thisuserAgent +
-    thisbrowserName +
+    thisaction +
+    thisactionDate +
     thisplatformName +
-    thiscookiesEnabled +
-    thispluginsInstalled +
-    thisdoNotTrackStatus +
+    thismachineCores +
     thisscreenWidth +
     thisscreenHeight +
-    thistimeZone +
+    thisscreenAvailWidth +
+    thisscreenAvailHeight +
+    thispixelDepth +
+    thiscolorDepth +
+    thisvideoFormats +
+    thiswebGLVendor +
+    thiswebGLRenderer +
     thisbrowserLanguage +
-    thisscreenDepth;
+    thiscookiesEnabled +
+    thislocalStorage +
+    thissessionStorage;
 
   // Use hashcode library for generating hash from string
   var hash = Math.abs(encode().value(hashInput));
   const thishashedUsername = hash;
+  const this_sameMachine_diffBrowser_yesVPN = hash;
+  const this_sameMachine_sameBrowser_yesVPN = Math.abs(
+    encode().value(
+      hashInput +
+        thisbrowserName +
+        thismachineRAM +
+        thisdoNotTrackStatus +
+        thispluginsInstalled +
+        thiscanvasID
+    )
+  );
+  const this_sameMachine_diffBrowser_noVPN = Math.abs(
+    encode().value(hashInput + thistimeZone)
+  );
+  const this_sameMachine_sameBrowser_noVPN = Math.abs(
+    encode().value(
+      hashInput +
+        thisbrowserName +
+        thismachineRAM +
+        thisdoNotTrackStatus +
+        thispluginsInstalled +
+        thistimeZone +
+        thiscanvasID
+    )
+  );
 
   // console.log("hashinput: " + hashInput);
   // console.log("hash: " + thishashedUsername);
@@ -73,23 +115,38 @@ router.route("/add").post((req, res) => {
         )
         .catch(err => res.status(500).json("Error: " + err));
     }
+
     // New user needs to be created as hash not found
     else {
       const newUser = new User({
         hashedUsername: thishashedUsername,
+        sameMachine_diffBrowser_yesVPN: this_sameMachine_diffBrowser_yesVPN,
+        sameMachine_sameBrowser_yesVPN: this_sameMachine_sameBrowser_yesVPN,
+        sameMachine_diffBrowser_noVPN: this_sameMachine_diffBrowser_noVPN,
+        sameMachine_sameBrowser_noVPN: this_sameMachine_sameBrowser_noVPN,
         machine: [
           {
-            userAgent: thisuserAgent,
-            browserName: thisbrowserName,
             platformName: thisplatformName,
-            cookiesEnabled: thiscookiesEnabled,
-            pluginsInstalled: thispluginsInstalled,
-            doNotTrackStatus: thispluginsInstalled,
+            machineCores: thismachineCores,
             screenWidth: thisscreenWidth,
             screenHeight: thisscreenHeight,
-            timeZone: thistimeZone,
+            screenAvailWidth: thisscreenAvailWidth,
+            screenAvailHeight: thisscreenAvailHeight,
+            pixelDepth: thispixelDepth,
+            colorDepth: thiscolorDepth,
+            videoFormats: thisvideoFormats,
+            webGLVendor: thiswebGLVendor,
+            webGLRenderer: thiswebGLRenderer,
             browserLanguage: thisbrowserLanguage,
-            screenDepth: thisscreenDepth
+            cookiesEnabled: thiscookiesEnabled,
+            localStorage: thislocalStorage,
+            sessionStorage: thissessionStorage,
+            browserName: thisbrowserName,
+            machineRAM: thismachineRAM,
+            doNotTrackStatus: thisdoNotTrackStatus,
+            pluginsInstalled: thispluginsInstalled,
+            timeZone: thistimeZone,
+            canvasID: thiscanvasID
           }
         ],
         actions: [

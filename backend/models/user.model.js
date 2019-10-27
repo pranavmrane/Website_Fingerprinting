@@ -10,17 +10,27 @@ const ActionSchema = new Schema({
 
 // Specify collections(table) structure for Machine Information
 const MachineSchema = new Schema({
-  userAgent: String,
-  browserName: String,
   platformName: String,
-  cookiesEnabled: String,
-  pluginsInstalled: String,
-  doNotTrackStatus: String,
+  machineCores: String,
   screenWidth: String,
   screenHeight: String,
-  timeZone: String,
+  screenAvailWidth: String,
+  screenAvailHeight: String,
+  pixelDepth: String,
+  colorDepth: String,
+  videoFormats: String,
+  webGLVendor: String,
+  webGLRenderer: String,
   browserLanguage: String,
-  screenDepth: String
+  cookiesEnabled: String,
+  localStorage: String,
+  sessionStorage: String,
+  browserName: String,
+  machineRAM: String,
+  doNotTrackStatus: String,
+  pluginsInstalled: String,
+  timeZone: String,
+  canvasID: String
 });
 
 // Specify collections(table) structure for User Information
@@ -32,6 +42,18 @@ const UserSchema = new Schema(
       required: true,
       unique: true,
       trim: true
+    },
+    sameMachine_diffBrowser_yesVPN: {
+      type: String
+    },
+    sameMachine_sameBrowser_yesVPN: {
+      type: String
+    },
+    sameMachine_diffBrowser_noVPN: {
+      type: String
+    },
+    sameMachine_sameBrowser_noVPN: {
+      type: String
     },
     machine: [MachineSchema],
     actions: [ActionSchema]
