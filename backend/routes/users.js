@@ -62,6 +62,8 @@ router.route("/add").post((req, res) => {
 
   // Use hashcode library for generating hash from string
   var hash = Math.abs(encode().value(hashInput));
+
+  // Generate Additonal Hashes for Changing conditions
   const thishashedUsername = hash;
   const this_sameMachine_diffBrowser_yesVPN = hash;
   const this_sameMachine_sameBrowser_yesVPN = Math.abs(

@@ -15,12 +15,12 @@ cd ~/Website_Fingerprinting
 echo "Setting up Backend Environment"
 cd backend
 sudo npm install -g nodemon
-npm install express cors mongoose dotenv hashcode
+sudo npm install express cors mongoose dotenv hashcode
 
 cd ..
 
 echo "Setting up Front End Environment"
-npm install axios react-router-dom bootstrap
+sudo npm install axios react-router-dom bootstrap
 
 cd backend
 echo "Starting Backend Server"

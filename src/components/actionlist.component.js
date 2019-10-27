@@ -30,6 +30,7 @@ export default class ActionList extends Component {
     });
   }
 
+  // Test if local Storage can be used
   isLocalStorageSupported(e) {
     var test = "test";
     try {
@@ -41,6 +42,7 @@ export default class ActionList extends Component {
     }
   }
 
+  // Test if Session Storage can be used
   isSessionStorageSupported(e) {
     var storage = window.sessionStorage;
     try {
@@ -52,6 +54,7 @@ export default class ActionList extends Component {
     }
   }
 
+  // Get webGL vendor i.e. GPU Manufacturer
   getwebGLVendor(e) {
     var canvas = document.getElementById("canvas");
     var gl = canvas.getContext("webgl");
@@ -62,6 +65,7 @@ export default class ActionList extends Component {
     return vendor;
   }
 
+  // Get webGL vendor i.e. GPU Chipset
   getwebGLRenderer(e) {
     var canvas = document.getElementById("canvas");
     var gl = canvas.getContext("webgl");
@@ -72,6 +76,7 @@ export default class ActionList extends Component {
     return renderer;
   }
 
+  // Identify Which Chipsets are supported
   supportsVideoType(e) {
     let video = document.createElement("video");
 
@@ -99,6 +104,7 @@ export default class ActionList extends Component {
     return text;
   }
 
+  // TODO: Check is extension is installed on particular browser
   adBlockStatus(e) {
     var height = document.getElementById("adblock-wrapper").clientHeight;
     console.log("height is", height);
@@ -136,12 +142,14 @@ export default class ActionList extends Component {
 
       browserName: window.navigator.appCodeName,
       machineRAM: window.navigator.deviceMemory || "-1",
+      // doNotTrack status works differently on different browsers
       doNotTrackStatus:
         window.doNotTrack ||
         navigator.doNotTrack ||
         navigator.msDoNotTrack ||
         "msTrackingProtectionEnabled" in window.external,
       pluginsInstalled: window.navigator.plugins.length,
+      // TODO: Check VPN Changed timezone
       timeZone: new Date().getTimezoneOffset(),
       canvasID: document.getElementById("canvas").toDataURL()
       // webGLID: ,
