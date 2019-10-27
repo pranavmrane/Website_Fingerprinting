@@ -44,8 +44,6 @@ router.route("/add").post((req, res) => {
 
   // Generate HashCode from all attributes
   var hashInput =
-    thisaction +
-    thisactionDate +
     thisplatformName +
     thismachineCores +
     thisscreenWidth +
