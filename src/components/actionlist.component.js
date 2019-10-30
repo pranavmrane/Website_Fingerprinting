@@ -123,7 +123,7 @@ export default class ActionList extends Component {
     const Package = {
       action: this.state.action,
       actionDate: new Date(),
-      platformName: window.navigator.oscpu || window.navigator.platform,
+      platformName: window.navigator.platform,
       machineCores: window.navigator.hardwareConcurrency,
       screenWidth: window.screen.width,
       screenHeight: window.screen.height,
@@ -147,7 +147,8 @@ export default class ActionList extends Component {
         window.doNotTrack ||
         navigator.doNotTrack ||
         navigator.msDoNotTrack ||
-        "msTrackingProtectionEnabled" in window.external,
+        "-1",
+      // || "msTrackingProtectionEnabled" in window.external
       pluginsInstalled: window.navigator.plugins.length,
       // TODO: Check VPN Changed timezone
       timeZone: new Date().getTimezoneOffset(),
