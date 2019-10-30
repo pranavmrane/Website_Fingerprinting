@@ -26,13 +26,13 @@ router.route("/add").post((req, res) => {
   thisscreenAvailHeight = req.body.screenAvailHeight;
   thispixelDepth = req.body.pixelDepth;
   thiscolorDepth = req.body.colorDepth;
-  thisvideoFormats = req.body.videoFormats;
   thiswebGLVendor = req.body.webGLVendor;
   thiswebGLRenderer = req.body.webGLRenderer;
   thisbrowserLanguage = req.body.browserLanguage;
   thiscookiesEnabled = req.body.cookiesEnabled;
-  thislocalStorage = req.body.localStorage;
   thissessionStorage = req.body.sessionStorage;
+  thisvideoFormats = req.body.videoFormats;
+  thislocalStorage = req.body.localStorage;
   thismachineCores = req.body.machineCores;
   thisbrowserName = req.body.browserName;
   thismachineRAM = req.body.machineRAM;
@@ -51,7 +51,6 @@ router.route("/add").post((req, res) => {
     thisscreenAvailHeight +
     thispixelDepth +
     thiscolorDepth +
-    thisvideoFormats +
     thiswebGLVendor +
     thiswebGLRenderer +
     thisbrowserLanguage +
@@ -67,6 +66,7 @@ router.route("/add").post((req, res) => {
   const this_sameMachine_sameBrowser_yesVPN = Math.abs(
     encode().value(
       hashInput +
+        thisvideoFormats +
         thislocalStorage +
         thismachineCores +
         thisbrowserName +
@@ -82,6 +82,7 @@ router.route("/add").post((req, res) => {
   const this_sameMachine_sameBrowser_noVPN = Math.abs(
     encode().value(
       hashInput +
+        thisvideoFormats +
         thislocalStorage +
         thismachineCores +
         thisbrowserName +
@@ -135,12 +136,12 @@ router.route("/add").post((req, res) => {
             screenAvailHeight: thisscreenAvailHeight,
             pixelDepth: thispixelDepth,
             colorDepth: thiscolorDepth,
-            videoFormats: thisvideoFormats,
             webGLVendor: thiswebGLVendor,
             webGLRenderer: thiswebGLRenderer,
             browserLanguage: thisbrowserLanguage,
             cookiesEnabled: thiscookiesEnabled,
             sessionStorage: thissessionStorage,
+            videoFormats: thisvideoFormats,
             localStorage: thislocalStorage,
             machineCores: thismachineCores,
             browserName: thisbrowserName,
