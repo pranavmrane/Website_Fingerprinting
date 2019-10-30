@@ -11,7 +11,6 @@ const ActionSchema = new Schema({
 // Specify collections(table) structure for Machine Information
 const MachineSchema = new Schema({
   platformName: String,
-  machineCores: String,
   screenWidth: String,
   screenHeight: String,
   screenAvailWidth: String,
@@ -23,8 +22,9 @@ const MachineSchema = new Schema({
   webGLRenderer: String,
   browserLanguage: String,
   cookiesEnabled: String,
-  localStorage: String,
   sessionStorage: String,
+  localStorage: String,
+  machineCores: String,
   browserName: String,
   machineRAM: String,
   doNotTrackStatus: String,

@@ -20,7 +20,6 @@ router.route("/add").post((req, res) => {
   // Machine Details Read from Request Information
   // TODO: Additional Attributes to be addeds
   thisplatformName = req.body.platformName;
-  thismachineCores = req.body.machineCores;
   thisscreenWidth = req.body.screenWidth;
   thisscreenHeight = req.body.screenHeight;
   thisscreenAvailWidth = req.body.screenAvailWidth;
@@ -34,6 +33,7 @@ router.route("/add").post((req, res) => {
   thiscookiesEnabled = req.body.cookiesEnabled;
   thislocalStorage = req.body.localStorage;
   thissessionStorage = req.body.sessionStorage;
+  thismachineCores = req.body.machineCores;
   thisbrowserName = req.body.browserName;
   thismachineRAM = req.body.machineRAM;
   thisdoNotTrackStatus = req.body.doNotTrackStatus;
@@ -45,7 +45,6 @@ router.route("/add").post((req, res) => {
   // Generate HashCode from all attributes
   var hashInput =
     thisplatformName +
-    thismachineCores +
     thisscreenWidth +
     thisscreenHeight +
     thisscreenAvailWidth +
@@ -57,7 +56,6 @@ router.route("/add").post((req, res) => {
     thiswebGLRenderer +
     thisbrowserLanguage +
     thiscookiesEnabled +
-    thislocalStorage +
     thissessionStorage;
 
   // Use hashcode library for generating hash from string
@@ -69,6 +67,8 @@ router.route("/add").post((req, res) => {
   const this_sameMachine_sameBrowser_yesVPN = Math.abs(
     encode().value(
       hashInput +
+        thislocalStorage +
+        thismachineCores +
         thisbrowserName +
         thismachineRAM +
         thisdoNotTrackStatus +
@@ -82,6 +82,8 @@ router.route("/add").post((req, res) => {
   const this_sameMachine_sameBrowser_noVPN = Math.abs(
     encode().value(
       hashInput +
+        thislocalStorage +
+        thismachineCores +
         thisbrowserName +
         thismachineRAM +
         thisdoNotTrackStatus +
@@ -127,7 +129,6 @@ router.route("/add").post((req, res) => {
         machine: [
           {
             platformName: thisplatformName,
-            machineCores: thismachineCores,
             screenWidth: thisscreenWidth,
             screenHeight: thisscreenHeight,
             screenAvailWidth: thisscreenAvailWidth,
@@ -139,8 +140,9 @@ router.route("/add").post((req, res) => {
             webGLRenderer: thiswebGLRenderer,
             browserLanguage: thisbrowserLanguage,
             cookiesEnabled: thiscookiesEnabled,
-            localStorage: thislocalStorage,
             sessionStorage: thissessionStorage,
+            localStorage: thislocalStorage,
+            machineCores: thismachineCores,
             browserName: thisbrowserName,
             machineRAM: thismachineRAM,
             doNotTrackStatus: thisdoNotTrackStatus,

@@ -124,7 +124,6 @@ export default class ActionList extends Component {
       action: this.state.action,
       actionDate: new Date(),
       platformName: window.navigator.platform,
-      machineCores: window.navigator.hardwareConcurrency,
       screenWidth: window.screen.width,
       screenHeight: window.screen.height,
       screenAvailWidth: window.screen.availWidth,
@@ -137,9 +136,10 @@ export default class ActionList extends Component {
       webGLRenderer: this.getwebGLRenderer(),
       browserLanguage: window.navigator.language,
       cookiesEnabled: window.navigator.cookieEnabled,
-      localStorage: this.isLocalStorageSupported(),
       sessionStorage: this.isSessionStorageSupported(),
 
+      localStorage: this.isLocalStorageSupported(),
+      machineCores: window.navigator.hardwareConcurrency,
       browserName: window.navigator.appCodeName,
       machineRAM: window.navigator.deviceMemory || "-1",
       // doNotTrack status works differently on different browsers
