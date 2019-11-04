@@ -5,7 +5,12 @@ const Schema = mongoose.Schema;
 // Specify collections(table) structure for Action
 const ActionSchema = new Schema({
   action: String,
-  ActionDateTime: { type: Date }
+  ActionDateTime: Date,
+  cookiesEnabled: String,
+  sessionStorage: String,
+  localStorage: String,
+  doNotTrackStatus: String,
+  pluginsInstalled: String
 });
 
 // Specify collections(table) structure for Machine Information
@@ -17,20 +22,17 @@ const MachineSchema = new Schema({
   screenAvailHeight: String,
   pixelDepth: String,
   colorDepth: String,
+  browserLanguage: String,
+  audioFormats: String,
+  videoFormats: String,
+  machineCores: String,
+  machineRAM: String,
+  browserName: String,
+  timeZone: String,
+  canvasID: String,
   webGLVendor: String,
   webGLRenderer: String,
-  browserLanguage: String,
-  cookiesEnabled: String,
-  sessionStorage: String,
-  videoFormats: String,
-  localStorage: String,
-  machineCores: String,
-  browserName: String,
-  machineRAM: String,
-  doNotTrackStatus: String,
-  pluginsInstalled: String,
-  timeZone: String,
-  canvasID: String
+  createdDateTime: Date
 });
 
 // Specify collections(table) structure for User Information
@@ -42,18 +44,6 @@ const UserSchema = new Schema(
       required: true,
       unique: true,
       trim: true
-    },
-    sameMachine_diffBrowser_yesVPN: {
-      type: String
-    },
-    sameMachine_sameBrowser_yesVPN: {
-      type: String
-    },
-    sameMachine_diffBrowser_noVPN: {
-      type: String
-    },
-    sameMachine_sameBrowser_noVPN: {
-      type: String
     },
     machine: [MachineSchema],
     actions: [ActionSchema]

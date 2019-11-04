@@ -13,9 +13,9 @@ export default class ActionList extends Component {
     this.isSessionStorageSupported = this.isSessionStorageSupported.bind(this);
     this.getwebGLVendor = this.getwebGLVendor.bind(this);
     this.getwebGLRenderer = this.getwebGLRenderer.bind(this);
+    this.supportsAudioType = this.supportsAudioType.bind(this);
     this.supportsVideoType = this.supportsVideoType.bind(this);
-    this.adBlockStatus = this.adBlockStatus.bind(this);
-
+    this.getCanvasRender = this.getCanvasRender.bind(this);
     // Set Default State of variables
     this.state = {
       action: "",
@@ -56,7 +56,7 @@ export default class ActionList extends Component {
 
   // Get webGL vendor i.e. GPU Manufacturer
   getwebGLVendor(e) {
-    var canvas = document.getElementById("canvas");
+    var canvas = document.createElement("canvas");
     var gl = canvas.getContext("webgl");
 
     var debugInfo = gl.getExtension("WEBGL_debug_renderer_info");
@@ -67,13 +67,64 @@ export default class ActionList extends Component {
 
   // Get webGL vendor i.e. GPU Chipset
   getwebGLRenderer(e) {
-    var canvas = document.getElementById("canvas");
+    var canvas = document.createElement("canvas");
     var gl = canvas.getContext("webgl");
 
     var debugInfo = gl.getExtension("WEBGL_debug_renderer_info");
     var renderer = gl.getParameter(debugInfo.UNMASKED_RENDERER_WEBGL);
 
     return renderer;
+  }
+
+  getCanvasRender(e) {
+    var canvas = document.createElement("canvas");
+    const context = canvas.getContext("2d");
+    context.fillRect(0, 0, 20, 20);
+    var txt = "Browser Fingerprinting";
+    context.textBaseline = "top";
+    // The most common type
+    context.font = "14px 'Arial'";
+    context.textBaseline = "alphabetic";
+    context.fillStyle = "#f60";
+    context.fillRect(125, 1, 62, 20);
+    // Some tricks for color mixing to increase the difference in rendering
+    context.fillStyle = "#069";
+    context.fillText(txt, 2, 15);
+    context.fillStyle = "rgba(102, 204, 0, 0.7)";
+    context.fillText(txt, 4, 17);
+
+    return canvas.toDataURL();
+  }
+
+  // Identify Which Chipsets are supported
+  supportsAudioType(e) {
+    let video = document.createElement("audio");
+
+    let formats = [
+      'audio/aac; codecs="aac"',
+      'audio/x-aiff; codecs="aif"',
+      'audio/mpeg; codecs="mp3"',
+      'audio/mp4; codecs="mp4a.40.2"',
+      'audio/ogg; codecs="flac"',
+      'audio/ogg; codecs="vorbis"',
+      'audio/ogg; codecs="opus"',
+      'audio/wav; codecs="1"',
+      'audio/webm; codecs="vorbis"',
+      'audio/webm; codecs="opus"'
+    ];
+
+    var i;
+    let text = "";
+    for (i = 0; i < formats.length; i++) {
+      if (video.canPlayType(formats[i]) === "probably") {
+        text +=
+          formats[i].split(";")[0].trim() +
+          " : " +
+          formats[i].split(";")[1].trim();
+      }
+    }
+
+    return text;
   }
 
   // Identify Which Chipsets are supported
@@ -104,64 +155,50 @@ export default class ActionList extends Component {
     return text;
   }
 
-  // TODO: Check is extension is installed on particular browser
-  adBlockStatus(e) {
-    var height = document.getElementById("adblock-wrapper").clientHeight;
-    console.log("height is", height);
-    if (height > 0) {
-      return "false";
-    } else {
-      return "true";
-    }
-  }
-
   // This function is called when action is entered and Submit button is pressed
   onSubmit(e) {
     e.preventDefault();
 
     // Collect all information to be sent to the backend server in Package variable
     const Package = {
-      action: this.state.action,
-      actionDate: new Date(),
-      platformName: window.navigator.platform,
-      screenWidth: window.screen.width,
-      screenHeight: window.screen.height,
-      screenAvailWidth: window.screen.availWidth,
-      screenAvailHeight: window.screen.availHeight,
-      pixelDepth: window.screen.pixelDepth,
-      colorDepth: window.screen.colorDepth,
-      // adblockStatus: this.adBlockStatus(),
+      // Values that user is not expected to change
+      platformName: window.navigator.platform || "-1",
+      screenWidth: window.screen.width || "-1",
+      screenHeight: window.screen.height || "-1",
+      screenAvailWidth: window.screen.availWidth || "-1",
+      screenAvailHeight: window.screen.availHeight || "-1",
+      pixelDepth: window.screen.pixelDepth || "-1",
+      colorDepth: window.screen.colorDepth || "-1",
+      browserLanguage: window.navigator.language || "-1",
+      videoFormats: this.supportsVideoType(),
+      audioFormats: this.supportsAudioType(),
+      machineCores: window.navigator.hardwareConcurrency || "-1",
+      machineRAM: window.navigator.deviceMemory || "-1",
+      browserName: window.navigator.appCodeName || "-1",
+      timeZone: new Date().getTimezoneOffset(),
+      canvasID: this.getCanvasRender(),
       webGLVendor: this.getwebGLVendor(),
       webGLRenderer: this.getwebGLRenderer(),
-      browserLanguage: window.navigator.language,
-      cookiesEnabled: window.navigator.cookieEnabled,
-      sessionStorage: this.isSessionStorageSupported(),
 
-      videoFormats: this.supportsVideoType(),
+      // Values that user can change without major impact to browsing experience
+      action: this.state.action,
+      actionDate: new Date(),
+      cookiesEnabled: window.navigator.cookieEnabled || "-1",
+      sessionStorage: this.isSessionStorageSupported(),
       localStorage: this.isLocalStorageSupported(),
-      machineCores: window.navigator.hardwareConcurrency,
-      browserName: window.navigator.appCodeName,
-      machineRAM: window.navigator.deviceMemory || "-1",
       // doNotTrack status works differently on different browsers
       doNotTrackStatus:
         window.doNotTrack ||
         navigator.doNotTrack ||
         navigator.msDoNotTrack ||
         "-1",
-      // || "msTrackingProtectionEnabled" in window.external
-      pluginsInstalled: window.navigator.plugins.length,
-      // TODO: Check VPN Changed timezone
-      timeZone: new Date().getTimezoneOffset(),
-      canvasID: document.getElementById("canvas").toDataURL()
-      // webGLID: ,
-      // webGL parameters: ,
-      // fontsCount:
+      pluginsInstalled: window.navigator.plugins.length || "-1"
     };
 
     console.log(Package);
 
     // Once all information is packaged, send it on backend port 5000
-    axios.post("http://3.133.91.100:5000/users/add", Package).then(res => {
+    axios.post("http://localhost:5000/users/add", Package).then(res => {
       this.setState({
         // Save all previous actions for user
         actionResponse: res.data.data
@@ -171,26 +208,16 @@ export default class ActionList extends Component {
   }
 
   render() {
-    const divStyle = {
-      backgroundcolor: "transparent",
-      height: "1px",
-      width: "1px"
-    };
     return (
       <div>
         <center>
-          <h1>Simple Demonstration of Fingerprinting</h1>
-          <h3>User tracking without Login or Cookies</h3>
-
-          <div id="adblock-wrapper" style={divStyle}></div>
-
-          <div>
-            <canvas id="canvas" width={25} height={25} />
-          </div>
+          <h1>Demonstration of Browser Fingerprinting</h1>
+          <h2>User tracking without Login or Cookies</h2>
+          <h4>Secure Coding Project - Michael Peechat and Pranav Rane</h4>
 
           <form onSubmit={this.onSubmit}>
             <label>
-              Enter a value between 0 and 10:
+              Enter a Number :
               <input
                 type="text"
                 value={this.state.action}

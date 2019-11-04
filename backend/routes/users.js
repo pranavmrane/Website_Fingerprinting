@@ -16,6 +16,11 @@ router.route("/add").post((req, res) => {
   // Action Details Read from Request Information
   const thisaction = req.body.action;
   const thisactionDate = req.body.actionDate;
+  thiscookiesEnabled = req.body.cookiesEnabled;
+  thissessionStorage = req.body.sessionStorage;
+  thislocalStorage = req.body.localStorage;
+  thisdoNotTrackStatus = req.body.doNotTrackStatus;
+  thispluginsInstalled = req.body.pluginsInstalled;
 
   // Machine Details Read from Request Information
   // TODO: Additional Attributes to be addeds
@@ -26,20 +31,16 @@ router.route("/add").post((req, res) => {
   thisscreenAvailHeight = req.body.screenAvailHeight;
   thispixelDepth = req.body.pixelDepth;
   thiscolorDepth = req.body.colorDepth;
+  thisbrowserLanguage = req.body.browserLanguage;
+  thisaudioFormats = req.body.audioFormats;
+  thisvideoFormats = req.body.videoFormats;
+  thismachineCores = req.body.machineCores;
+  thismachineRAM = req.body.machineRAM;
+  thisbrowserName = req.body.browserName;
+  thistimeZone = req.body.timeZone;
+  thiscanvasID = Math.abs(encode().value(req.body.canvasID));
   thiswebGLVendor = req.body.webGLVendor;
   thiswebGLRenderer = req.body.webGLRenderer;
-  thisbrowserLanguage = req.body.browserLanguage;
-  thiscookiesEnabled = req.body.cookiesEnabled;
-  thissessionStorage = req.body.sessionStorage;
-  thisvideoFormats = req.body.videoFormats;
-  thislocalStorage = req.body.localStorage;
-  thismachineCores = req.body.machineCores;
-  thisbrowserName = req.body.browserName;
-  thismachineRAM = req.body.machineRAM;
-  thisdoNotTrackStatus = req.body.doNotTrackStatus;
-  thispluginsInstalled = req.body.pluginsInstalled;
-  thistimeZone = req.body.timeZone;
-  thiscanvasID = req.body.canvasID;
   // console.log("thiscanvasID: " + thiscanvasID);
 
   // Generate HashCode from all attributes
@@ -51,48 +52,22 @@ router.route("/add").post((req, res) => {
     thisscreenAvailHeight +
     thispixelDepth +
     thiscolorDepth +
-    thiswebGLVendor +
-    thiswebGLRenderer +
     thisbrowserLanguage +
-    thiscookiesEnabled +
-    thissessionStorage;
+    thisaudioFormats +
+    thisvideoFormats +
+    thismachineCores +
+    thismachineRAM +
+    thisbrowserName +
+    thistimeZone +
+    thiscanvasID +
+    thiswebGLVendor +
+    thiswebGLRenderer;
 
   // Use hashcode library for generating hash from string
   var hash = Math.abs(encode().value(hashInput));
 
   // Generate Additonal Hashes for Changing conditions
   const thishashedUsername = hash;
-  const this_sameMachine_diffBrowser_yesVPN = hash;
-  const this_sameMachine_sameBrowser_yesVPN = Math.abs(
-    encode().value(
-      hashInput +
-        thisvideoFormats +
-        thislocalStorage +
-        thismachineCores +
-        thisbrowserName +
-        thismachineRAM +
-        thisdoNotTrackStatus +
-        thispluginsInstalled +
-        thiscanvasID
-    )
-  );
-  const this_sameMachine_diffBrowser_noVPN = Math.abs(
-    encode().value(hashInput + thistimeZone)
-  );
-  const this_sameMachine_sameBrowser_noVPN = Math.abs(
-    encode().value(
-      hashInput +
-        thisvideoFormats +
-        thislocalStorage +
-        thismachineCores +
-        thisbrowserName +
-        thismachineRAM +
-        thisdoNotTrackStatus +
-        thispluginsInstalled +
-        thistimeZone +
-        thiscanvasID
-    )
-  );
 
   // console.log("hashinput: " + hashInput);
   // console.log("hash: " + thishashedUsername);
@@ -104,7 +79,12 @@ router.route("/add").post((req, res) => {
       // Add Latest action to specific user
       docs[0].actions.push({
         action: thisaction,
-        ActionDateTime: thisactionDate
+        ActionDateTime: thisactionDate,
+        cookiesEnabled: thiscookiesEnabled,
+        sessionStorage: thissessionStorage,
+        localStorage: thislocalStorage,
+        doNotTrackStatus: thisdoNotTrackStatus,
+        pluginsInstalled: thispluginsInstalled
       });
       docs[0]
         .save()
@@ -123,10 +103,6 @@ router.route("/add").post((req, res) => {
     else {
       const newUser = new User({
         hashedUsername: thishashedUsername,
-        sameMachine_diffBrowser_yesVPN: this_sameMachine_diffBrowser_yesVPN,
-        sameMachine_sameBrowser_yesVPN: this_sameMachine_sameBrowser_yesVPN,
-        sameMachine_diffBrowser_noVPN: this_sameMachine_diffBrowser_noVPN,
-        sameMachine_sameBrowser_noVPN: this_sameMachine_sameBrowser_noVPN,
         machine: [
           {
             platformName: thisplatformName,
@@ -136,26 +112,28 @@ router.route("/add").post((req, res) => {
             screenAvailHeight: thisscreenAvailHeight,
             pixelDepth: thispixelDepth,
             colorDepth: thiscolorDepth,
+            browserLanguage: thisbrowserLanguage,
+            audioFormats: thisaudioFormats,
+            videoFormats: thisvideoFormats,
+            machineCores: thismachineCores,
+            machineRAM: thismachineRAM,
+            browserName: thisbrowserName,
+            timeZone: thistimeZone,
+            canvasID: thiscanvasID,
             webGLVendor: thiswebGLVendor,
             webGLRenderer: thiswebGLRenderer,
-            browserLanguage: thisbrowserLanguage,
-            cookiesEnabled: thiscookiesEnabled,
-            sessionStorage: thissessionStorage,
-            videoFormats: thisvideoFormats,
-            localStorage: thislocalStorage,
-            machineCores: thismachineCores,
-            browserName: thisbrowserName,
-            machineRAM: thismachineRAM,
-            doNotTrackStatus: thisdoNotTrackStatus,
-            pluginsInstalled: thispluginsInstalled,
-            timeZone: thistimeZone,
-            canvasID: thiscanvasID
+            createdDateTime: thisactionDate
           }
         ],
         actions: [
           {
             action: thisaction,
-            ActionDateTime: thisactionDate
+            ActionDateTime: thisactionDate,
+            cookiesEnabled: thiscookiesEnabled,
+            sessionStorage: thissessionStorage,
+            localStorage: thislocalStorage,
+            doNotTrackStatus: thisdoNotTrackStatus,
+            pluginsInstalled: thispluginsInstalled
           }
         ]
       });
