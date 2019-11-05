@@ -213,18 +213,19 @@ export default class ActionList extends Component {
         <center>
           <h1>Demonstration of Browser Fingerprinting</h1>
           <h2>User tracking without Login or Cookies</h2>
-          <h4>Secure Coding Project - Michael Peechat and Pranav Rane</h4>
+          <h4>Secure Coding Project - Michael Peechatt and Pranav Rane</h4>
 
-          <form onSubmit={this.onSubmit}>
+          <form id="input_form" onSubmit={this.onSubmit}>
             <label>
               Enter a Number :
               <input
                 type="text"
+                id="input_text"
                 value={this.state.action}
                 onChange={this.onChangeAction}
               />
             </label>
-            <input type="submit" value="Submit" />
+            <input type="submit" id="input_submit" value="Submit" />
           </form>
 
           {/* Parse information from list of actions */}
