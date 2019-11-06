@@ -5,12 +5,8 @@ const Schema = mongoose.Schema;
 // Specify collections(table) structure for Action
 const ActionSchema = new Schema({
   action: String,
-  ActionDateTime: Date,
-  cookiesEnabled: String,
-  sessionStorage: String,
-  localStorage: String,
-  doNotTrackStatus: String,
-  pluginsInstalled: String
+  ActionDate: String,
+  ActionTime: String
 });
 
 // Specify collections(table) structure for Machine Information
@@ -18,21 +14,24 @@ const MachineSchema = new Schema({
   platformName: String,
   screenWidth: String,
   screenHeight: String,
-  screenAvailWidth: String,
-  screenAvailHeight: String,
   pixelDepth: String,
   colorDepth: String,
   browserLanguage: String,
-  audioFormats: String,
   videoFormats: String,
+  audioFormats: String,
   machineCores: String,
   machineRAM: String,
   browserName: String,
-  timeZone: String,
+  timeZoneOffset: String,
   canvasID: String,
   webGLVendor: String,
   webGLRenderer: String,
-  createdDateTime: Date
+  cookiesEnabled: String,
+  sessionStorage: String,
+  localStorage: String,
+  doNotTrackStatus: String,
+  pluginsInstalled: String,
+  createdDateTime: String
 });
 
 // Specify collections(table) structure for User Information

@@ -13,27 +13,22 @@ router.route("/").get((req, res) => {
 // Specify the actions after post request for localhost:5000/users/add
 // This function will save user request information and return all past requests for user
 router.route("/add").post((req, res) => {
+  const systemDateTime = new Date().toLocaleString();
+
   // Action Details Read from Request Information
   const thisaction = req.body.action;
   const thisactionDate = req.body.actionDate;
-  thiscookiesEnabled = req.body.cookiesEnabled;
-  thissessionStorage = req.body.sessionStorage;
-  thislocalStorage = req.body.localStorage;
-  thisdoNotTrackStatus = req.body.doNotTrackStatus;
-  thispluginsInstalled = req.body.pluginsInstalled;
+  const thisactionTime = req.body.actionTime;
 
   // Machine Details Read from Request Information
-  // TODO: Additional Attributes to be addeds
   thisplatformName = req.body.platformName;
   thisscreenWidth = req.body.screenWidth;
   thisscreenHeight = req.body.screenHeight;
-  thisscreenAvailWidth = req.body.screenAvailWidth;
-  thisscreenAvailHeight = req.body.screenAvailHeight;
   thispixelDepth = req.body.pixelDepth;
   thiscolorDepth = req.body.colorDepth;
   thisbrowserLanguage = req.body.browserLanguage;
-  thisaudioFormats = req.body.audioFormats;
   thisvideoFormats = req.body.videoFormats;
+  thisaudioFormats = req.body.audioFormats;
   thismachineCores = req.body.machineCores;
   thismachineRAM = req.body.machineRAM;
   thisbrowserName = req.body.browserName;
@@ -41,6 +36,11 @@ router.route("/add").post((req, res) => {
   thiscanvasID = Math.abs(encode().value(req.body.canvasID));
   thiswebGLVendor = req.body.webGLVendor;
   thiswebGLRenderer = req.body.webGLRenderer;
+  thiscookiesEnabled = req.body.cookiesEnabled;
+  thissessionStorage = req.body.sessionStorage;
+  thislocalStorage = req.body.localStorage;
+  thisdoNotTrackStatus = req.body.doNotTrackStatus;
+  thispluginsInstalled = req.body.pluginsInstalled;
   // console.log("thiscanvasID: " + thiscanvasID);
 
   // Generate HashCode from all attributes
@@ -48,8 +48,6 @@ router.route("/add").post((req, res) => {
     thisplatformName +
     thisscreenWidth +
     thisscreenHeight +
-    thisscreenAvailWidth +
-    thisscreenAvailHeight +
     thispixelDepth +
     thiscolorDepth +
     thisbrowserLanguage +
@@ -61,7 +59,12 @@ router.route("/add").post((req, res) => {
     thistimeZone +
     thiscanvasID +
     thiswebGLVendor +
-    thiswebGLRenderer;
+    thiswebGLRenderer +
+    thiscookiesEnabled +
+    thissessionStorage +
+    thislocalStorage +
+    thisdoNotTrackStatus +
+    thispluginsInstalled;
 
   // Use hashcode library for generating hash from string
   var hash = Math.abs(encode().value(hashInput));
@@ -79,12 +82,8 @@ router.route("/add").post((req, res) => {
       // Add Latest action to specific user
       docs[0].actions.push({
         action: thisaction,
-        ActionDateTime: thisactionDate,
-        cookiesEnabled: thiscookiesEnabled,
-        sessionStorage: thissessionStorage,
-        localStorage: thislocalStorage,
-        doNotTrackStatus: thisdoNotTrackStatus,
-        pluginsInstalled: thispluginsInstalled
+        ActionDate: thisactionDate,
+        ActionTime: thisactionTime
       });
       docs[0]
         .save()
@@ -93,7 +92,8 @@ router.route("/add").post((req, res) => {
             success: "true",
             msg: "Action Added to User",
             // Return all actions past and present to client as res
-            data: docs[0].actions
+            actionList: docs[0].actions,
+            userIdentifier: thishashedUsername
           })
         )
         .catch(err => res.status(500).json("Error: " + err));
@@ -108,8 +108,6 @@ router.route("/add").post((req, res) => {
             platformName: thisplatformName,
             screenWidth: thisscreenWidth,
             screenHeight: thisscreenHeight,
-            screenAvailWidth: thisscreenAvailWidth,
-            screenAvailHeight: thisscreenAvailHeight,
             pixelDepth: thispixelDepth,
             colorDepth: thiscolorDepth,
             browserLanguage: thisbrowserLanguage,
@@ -122,18 +120,19 @@ router.route("/add").post((req, res) => {
             canvasID: thiscanvasID,
             webGLVendor: thiswebGLVendor,
             webGLRenderer: thiswebGLRenderer,
-            createdDateTime: thisactionDate
+            cookiesEnabled: thiscookiesEnabled,
+            sessionStorage: thissessionStorage,
+            localStorage: thislocalStorage,
+            doNotTrackStatus: thisdoNotTrackStatus,
+            pluginsInstalled: thispluginsInstalled,
+            createdDateTime: systemDateTime
           }
         ],
         actions: [
           {
             action: thisaction,
-            ActionDateTime: thisactionDate,
-            cookiesEnabled: thiscookiesEnabled,
-            sessionStorage: thissessionStorage,
-            localStorage: thislocalStorage,
-            doNotTrackStatus: thisdoNotTrackStatus,
-            pluginsInstalled: thispluginsInstalled
+            ActionDate: thisactionDate,
+            ActionTime: thisactionTime
           }
         ]
       });
@@ -145,7 +144,8 @@ router.route("/add").post((req, res) => {
             success: "true",
             msg: "New User added!",
             // Return newly added action to client
-            data: newUser.actions
+            actionList: newUser.actions,
+            userIdentifier: thishashedUsername
           })
         )
         .catch(err => res.status(400).json("Error: " + err));

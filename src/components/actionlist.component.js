@@ -19,7 +19,8 @@ export default class ActionList extends Component {
     // Set Default State of variables
     this.state = {
       action: "",
-      actionResponse: []
+      actionResponse: [],
+      userIdentifer: ""
     };
   }
 
@@ -32,10 +33,10 @@ export default class ActionList extends Component {
 
   // Test if local Storage can be used
   isLocalStorageSupported(e) {
-    var test = "test";
+    var storage = window.localStorage;
     try {
-      localStorage.setItem(test, test);
-      localStorage.removeItem(test);
+      storage.setItem("test", "test");
+      storage.removeItem("test");
       return true;
     } catch (e) {
       return false;
@@ -98,7 +99,7 @@ export default class ActionList extends Component {
 
   // Identify Which Chipsets are supported
   supportsAudioType(e) {
-    let video = document.createElement("audio");
+    let audio = document.createElement("audio");
 
     let formats = [
       'audio/aac; codecs="aac"',
@@ -116,15 +117,16 @@ export default class ActionList extends Component {
     var i;
     let text = "";
     for (i = 0; i < formats.length; i++) {
-      if (video.canPlayType(formats[i]) === "probably") {
-        text +=
-          formats[i].split(";")[0].trim() +
-          " : " +
-          formats[i].split(";")[1].trim();
+      if (audio.canPlayType(formats[i]) === "probably") {
+        var front = formats[i].split(";")[0].trim() + ":";
+        var back = formats[i].split(";")[1].trim();
+        back = back.substring(8, back.length - 1) + ",";
+
+        text += front + back;
       }
     }
 
-    return text;
+    return text.substring(0, text.length - 1);
   }
 
   // Identify Which Chipsets are supported
@@ -136,7 +138,7 @@ export default class ActionList extends Component {
       'video/ogg; codecs="opus"',
       'video/mp4; codecs="avc1.42E01E"',
       'video/mp4; codecs="flac"',
-      'video/webm; codecs="vp8, vorbis"',
+      'video/webm; codecs="vp8,vorbis"',
       'video/webm; codecs="vp9,opus"',
       'application/x-mpegURL; codecs="avc1.42E01E"'
     ];
@@ -145,14 +147,15 @@ export default class ActionList extends Component {
     let text = "";
     for (i = 0; i < formats.length; i++) {
       if (video.canPlayType(formats[i]) === "probably") {
-        text +=
-          formats[i].split(";")[0].trim() +
-          " : " +
-          formats[i].split(";")[1].trim();
+        var front = formats[i].split(";")[0].trim() + ":";
+        var back = formats[i].split(";")[1].trim();
+        back = back.substring(8, back.length - 1) + ",";
+
+        text += front + back;
       }
     }
 
-    return text;
+    return text.substring(0, text.length - 1);
   }
 
   // This function is called when action is entered and Submit button is pressed
@@ -165,8 +168,6 @@ export default class ActionList extends Component {
       platformName: window.navigator.platform || "-1",
       screenWidth: window.screen.width || "-1",
       screenHeight: window.screen.height || "-1",
-      screenAvailWidth: window.screen.availWidth || "-1",
-      screenAvailHeight: window.screen.availHeight || "-1",
       pixelDepth: window.screen.pixelDepth || "-1",
       colorDepth: window.screen.colorDepth || "-1",
       browserLanguage: window.navigator.language || "-1",
@@ -175,14 +176,11 @@ export default class ActionList extends Component {
       machineCores: window.navigator.hardwareConcurrency || "-1",
       machineRAM: window.navigator.deviceMemory || "-1",
       browserName: window.navigator.appCodeName || "-1",
-      timeZone: new Date().getTimezoneOffset(),
+      timeZoneOffset: new Date().getTimezoneOffset(),
       canvasID: this.getCanvasRender(),
       webGLVendor: this.getwebGLVendor(),
       webGLRenderer: this.getwebGLRenderer(),
-
-      // Values that user can change without major impact to browsing experience
-      action: this.state.action,
-      actionDate: new Date(),
+      // Values that user can change without major loss of functionality to the tool
       cookiesEnabled: window.navigator.cookieEnabled || "-1",
       sessionStorage: this.isSessionStorageSupported(),
       localStorage: this.isLocalStorageSupported(),
@@ -192,18 +190,30 @@ export default class ActionList extends Component {
         navigator.doNotTrack ||
         navigator.msDoNotTrack ||
         "-1",
-      pluginsInstalled: window.navigator.plugins.length || "-1"
+      pluginsInstalled: window.navigator.plugins.length || "-1",
+
+      action: this.state.action,
+      actionDate: new Date()
+        .toLocaleString()
+        .split(",")[0]
+        .trim(),
+      actionTime: new Date()
+        .toLocaleString()
+        .split(",")[1]
+        .trim()
     };
 
-    console.log(Package);
+    // console.log(Package);
 
     // Once all information is packaged, send it on backend port 5000
+    // axios.post("http://localhost:5000/users/add", Package).then(res => {
     axios.post("http://3.133.91.100:5000/users/add", Package).then(res => {
       this.setState({
         // Save all previous actions for user
-        actionResponse: res.data.data
+        actionResponse: res.data.actionList,
+        userIdentifer: res.data.userIdentifier
       });
-      console.log(res.data.data);
+      // console.log(res.data.data);
     });
   }
 
@@ -229,12 +239,14 @@ export default class ActionList extends Component {
           </form>
 
           {/* Parse information from list of actions */}
+          <p>User Identifier: {this.state.userIdentifer}</p>
           <p>Previous Activity for This Machine:</p>
           {this.state.actionResponse.map(x => {
             return (
               <div>
                 <p>
-                  Prior Selection: {x.action} | Selection on: {x.ActionDateTime}
+                  Prior Selection: {x.action} | Time: {x.ActionTime} | Date:
+                  {x.ActionDate}
                 </p>
               </div>
             );
