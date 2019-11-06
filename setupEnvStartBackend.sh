@@ -20,7 +20,7 @@ cd ~/Website_Fingerprinting
 
 echo "Setting up Backend Environment"
 cd backend
-sudo npm install -g nodemon
+sudo npm install -g nodemon pm2
 sudo npm install express cors mongoose dotenv hashcode path
 
 cd ..
