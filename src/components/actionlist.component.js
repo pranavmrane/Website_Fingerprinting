@@ -25,6 +25,7 @@ export default class ActionList extends Component {
   }
 
   // Update State of action when function triggered
+  // Read user input from user
   onChangeAction(e) {
     this.setState({
       action: e.target.value
@@ -77,6 +78,7 @@ export default class ActionList extends Component {
     return renderer;
   }
 
+  // Render Canvas and generate Code for canvas
   getCanvasRender(e) {
     var canvas = document.createElement("canvas");
     const context = canvas.getContext("2d");
@@ -97,7 +99,7 @@ export default class ActionList extends Component {
     return canvas.toDataURL();
   }
 
-  // Identify Which Chipsets are supported
+  // Identify Audio Formats are Supported by Machine
   supportsAudioType(e) {
     let audio = document.createElement("audio");
 
@@ -129,7 +131,7 @@ export default class ActionList extends Component {
     return text.substring(0, text.length - 1);
   }
 
-  // Identify Which Chipsets are supported
+  // Identify Video Formats are Supported by Machine
   supportsVideoType(e) {
     let video = document.createElement("video");
 
@@ -164,7 +166,7 @@ export default class ActionList extends Component {
 
     // Collect all information to be sent to the backend server in Package variable
     const Package = {
-      // Values that user is not expected to change
+      // Values that user cannot directly influence
       platformName: window.navigator.platform || "-1",
       screenWidth: window.screen.width || "-1",
       screenHeight: window.screen.height || "-1",
