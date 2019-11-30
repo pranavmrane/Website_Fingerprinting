@@ -209,7 +209,8 @@ export default class ActionList extends Component {
 
     // Once all information is packaged, send it on backend port 5000
     // axios.post("http://localhost:5000/users/add", Package).then(res => {
-    axios.post("http://3.133.91.100:5000/users/add", Package).then(res => {
+    // axios.post("http://3.133.91.100:5000/users/add", Package).then(res => {
+    axios.post("http://PUBLIC_IP_ADDRESS:5000/users/add", Package).then(res => {
       this.setState({
         // Save all previous actions for user
         actionResponse: res.data.actionList,

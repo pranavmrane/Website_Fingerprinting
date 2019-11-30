@@ -52,6 +52,12 @@ sudo chown -R ubuntu Website_Fingerprinting
 
 cd Website_Fingerprinting
 
+cd src/components
+
+sed -i 's/PUBLIC_IP_ADDRESS/${PUBLIC_IP}/g' actionlist.component.js
+
+cd /var/www/Website_Fingerprinting
+
 sudo npm install
 
 cd backend

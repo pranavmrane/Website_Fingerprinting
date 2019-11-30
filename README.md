@@ -32,7 +32,10 @@ Locate EC2 service, and click on it to enter EC2 Dashboard.
 2. During the network whitelisting step, enter the EC2 Public IP. This means only the EC2 instance can access the Mongo DB database
 
 3. When cluster is online, select 'Connect' and get the connection String. It should look something like this:
+
+   ```
    mongodb+srv://pranavmrane:<password>@fingerprintingstorage-fsfmc.mongodb.net/test?retryWrites=true&w=majority
+   ```
 
 4. The password will for the cluster should be added in the connection string. This string will be used in a later step
 
