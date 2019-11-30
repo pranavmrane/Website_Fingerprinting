@@ -36,9 +36,11 @@ echo "server {
     }
 }" >> Website_Fingerprinting
 
-sed -i 's/PUBLIC_IP_ADDRESS/${PUBLIC_IP}/g' Website_Fingerprinting
+sed -i "s/PUBLIC_IP_ADDRESS/${PUBLIC_IP}/g" Website_Fingerprinting
 
 sudo rm default
+
+sudo rm /etc/nginx/sites-enabled/Website_Fingerprinting
 
 sudo ln -s /etc/nginx/sites-available/Website_Fingerprinting /etc/nginx/sites-enabled/Website_Fingerprinting
 
@@ -54,7 +56,7 @@ cd Website_Fingerprinting
 
 cd src/components
 
-sed -i 's/PUBLIC_IP_ADDRESS/${PUBLIC_IP}/g' actionlist.component.js
+sed -i "s/PUBLIC_IP_ADDRESS/${PUBLIC_IP}/g" actionlist.component.js
 
 cd /var/www/Website_Fingerprinting
 
