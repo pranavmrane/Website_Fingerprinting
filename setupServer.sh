@@ -1,6 +1,8 @@
 cd /var/www
 
-sudo apt-get updatesudo apt-get install -y build-essential openssl libssl-dev pkg-config
+sudo apt-get update
+
+sudo apt-get install -y build-essential openssl libssl-dev pkg-config
 
 sudo curl -sL https://deb.nodesource.com/setup_10.x | sudo -E bash -
 
@@ -63,7 +65,7 @@ cd /var/www/Website_Fingerprinting
 
 sudo npm install
 
-sudo npm fix audit
+sudo npm audit fix
 
 cd /var/www/Website_Fingerprinting/backend
 
