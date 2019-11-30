@@ -30,12 +30,13 @@ echo 'server {
         proxy_pass http://PUBLIC_IP_ADDRESS:5000;
         proxy_http_version 1.1;
         proxy_set_header Upgrade $http_upgrade;
-        proxy_set_header Connection \'upgrade\';
+        proxy_set_header Connection upgrade;
         proxy_set_header Host $host;
         proxy_cache_bypass $http_upgrade;
     }
 }' >> Website_Fingerprinting
 
+sed -i "s/Connection upgrade/Connection \'upgrade\'/g" Website_Fingerprinting
 sed -i "s/PUBLIC_IP_ADDRESS/${PUBLIC_IP}/g" Website_Fingerprinting
 
 sudo rm default

@@ -10,7 +10,7 @@ The website is live at [www.noescape.ga](www.noescape.ga)
 
 # Setup Instructions
 
-Incase anyone wants to try out the setup of the website themselves, the instructions can be found below:
+Incase anyone wants to try out the setup of the website themselves, the instructions can be found below. The process of setting up Mongo Express React Node cluster is derived from [here](https://medium.com/@rksmith369/how-to-deploy-mern-stack-app-on-aws-ec2-with-ssl-nginx-the-right-way-e76c1a8cd6c6)
 
 # Pre-Requisites:
 
@@ -78,6 +78,11 @@ sudo pm2 stop all
 The website will now be available on the public ip of EC2.
 
 Remember to close the instance of EC2 and cluster of Mongo DB when the experiment is done.
+
+# Important File Locations
+
+Website_Fingerprinting/backend/routes/users.js: Contains Backend Code, processes data from front end
+Website_Fingerprinting/src/components/actionlist.component.js: Front End code, accept data and display response
 
 <!--
 ## Linux Users
