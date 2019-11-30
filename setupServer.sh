@@ -24,17 +24,17 @@ PUBLIC_IP=$(curl http://checkip.amazonaws.com)
 
 rm Website_Fingerprinting
 
-echo "server {
+echo 'server {
     listen 80;
     location / {
         proxy_pass http://PUBLIC_IP_ADDRESS:5000;
         proxy_http_version 1.1;
         proxy_set_header Upgrade $http_upgrade;
-        proxy_set_header Connection 'upgrade';
+        proxy_set_header Connection \'upgrade\';
         proxy_set_header Host $host;
         proxy_cache_bypass $http_upgrade;
     }
-}" >> Website_Fingerprinting
+}' >> Website_Fingerprinting
 
 sed -i "s/PUBLIC_IP_ADDRESS/${PUBLIC_IP}/g" Website_Fingerprinting
 
@@ -61,6 +61,8 @@ sed -i "s/PUBLIC_IP_ADDRESS/${PUBLIC_IP}/g" actionlist.component.js
 cd /var/www/Website_Fingerprinting
 
 sudo npm install
+
+sudo npm fix audit
 
 cd /var/www/Website_Fingerprinting/backend
 
