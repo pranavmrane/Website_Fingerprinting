@@ -24,3 +24,4 @@ yarn-error.log*
 
 # Connection String to MongoDB atlas, contains password
 ./backend/.env
+
