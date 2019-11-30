@@ -45,25 +45,17 @@ Log in to EC2 using SSH or Putty
 
 ```
 cd /var/www
-
 sudo rm -rf Website_Fingerprinting
-
 sudo git clone https://github.com/pranavmrane/Website_Fingerprinting.git
-
 cd Website_Fingerprinting
-
-sudo bash setupServer.bash
-
+sudo bash setupServer.sh
 ```
 
 Installation is done. Some additional steps are required.
 
 ```
-cd /var/www/Website_Fingerprinting
-
-cd backend
-
-vim .env
+cd /var/www/Website_Fingerprinting/backend
+sudo vim .env
 ```
 
 Paste the connection string obtained from Mongo DB Atlas into this file. Save file pressing Esc. And then :wq
@@ -80,7 +72,7 @@ sudo service nginx stop && sudo service nginx start
 To stop the server, do the following:
 
 ```
-pm2 stop
+sudo pm2 stop all
 ```
 
 The website will now be available on the public ip of EC2.

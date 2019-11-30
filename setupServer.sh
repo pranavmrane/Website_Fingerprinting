@@ -62,7 +62,7 @@ cd /var/www/Website_Fingerprinting
 
 sudo npm install
 
-cd backend
+cd /var/www/Website_Fingerprinting/backend
 
 sudo npm install
 
