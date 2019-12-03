@@ -14,7 +14,7 @@ Incase anyone wants to try out the setup of the website themselves, the instruct
 
 # Pre-Requisites:
 
-## Setup AWS-EC2 Instance
+## Setup Free Tier AWS-EC2 Instance
 
 Make an account of AWS. Enter the credit/card details. No charges will be levied, but adding card information is a necessaary step.
 
@@ -25,7 +25,7 @@ Locate EC2 service, and click on it to enter EC2 Dashboard.
 3. When the instance is launched, right click on the instance and select connect. Configure the SSH connection mechanish and download the .pem file
 4. Note the public DNS as it will be important in the next setp
 
-## Setup Account on MongoDB Atlas
+## Setup Free Tier MongoDB Cluster
 
 1. An free-tier cluster needs to be setup on MongoDB Atlas service. The guide to setting it up can be found [here](https://docs.atlas.mongodb.com/getting-started/) or in video format [here](https://www.youtube.com/watch?v=rPqRyYJmx2g):
 
@@ -80,72 +80,7 @@ Remember to close the instance of EC2 and cluster of Mongo DB when the experimen
 
 # Important File Locations
 
-**backend/routes/users.js**: Contains Backend Code, processes data from front end
+backend/routes/users.js: Contains Backend Code, processes data from front end
 
-**src/components/actionlist.component.js**: Front End code, accept data and display response
+src/components/actionlist.component.js: Front End code, accept data and display response
 
-<!--
-## Linux Users
-
-Start Terminal (Ctrl + Alt + T)
-
-```
-cd ~
-git clone https://github.com/pranavmrane/Website_Fingerprinting.git
-cd Website_Fingerprinting/
-sudo bash setupEnvStartBackend.sh
-```
-
-Start New Terminal(Ctrl + Alt + T)
-
-```
-cd ~/Website_Fingerprinting
-bash startFrontEnd.bash
-```
-
-This should install all system requirements and start the servers. To close the servers close the terminals.
-
-For more details on starting servers separately checkout the section titled 'Run Instructions'.
-
-## Non-Linux Users
-
-The process needs npm, node and react installed on the machine. The instructions for installation are specified [here](https://nodejs.org/en/):
-
-The project files must also be cloned in a folder.
-
-Furthermore Additonal Packages are also required for the project to function.The instructions for installation are specified [here](https://www.tutorialsteacher.com/nodejs/what-is-node-package-manager)
-
-## Backend Packages Required(Inside root/backend folder)
-
-- nodemon(installed globally)
-- install
-- express
-- cors
-- mongoose
-- dotenv
-- hashcode
-
-## FrontEnd Packages Required(Inside root folder)
-
-- axios
-- react-router-dom
-- bootstrap
-
-# Run Instructions
-
-## Start Backend
-
-Backend can be started by nativating to {root_folder_address}/backend/
-Then backend server can be started by typing `nodemon server`
-
-## Start Frontend
-
-Backend can be started by navigating out to {root_folder_address}/
-Then frontend server can be started by typing `npm start`
-
-# Using the tool
-
-Once the tool in started, type a number in text box.
-This number will be saved on the backend server.
-If the tool has been used previously then all previous entries will be also be fetched.
-The previous entries for a particular user are fetched without user having to perform authentication. -->
