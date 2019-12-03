@@ -80,8 +80,9 @@ Remember to close the instance of EC2 and cluster of Mongo DB when the experimen
 
 # Important File Locations
 
-backend/routes/users.js: Contains Backend Code, processes data from front end
-src/components/actionlist.component.js: Front End code, accept data and display response
+**backend/routes/users.js**: Contains Backend Code, processes data from front end
+
+**src/components/actionlist.component.js**: Front End code, accept data and display response
 
 <!--
 ## Linux Users
